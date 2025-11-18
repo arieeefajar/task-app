@@ -43,13 +43,14 @@ const LoginForm = () => {
                                         id={"email"}
                                         type={"email"}
                                         name={"email"}
-                                        value={data.email}
                                         placeholder="info@gmail"
+                                        isFocused={true}
+                                        value={data.email}
+                                        error={errors.email ? true : false}
+                                        hint={errors.email}
                                         onChange={(e) =>
                                             setData("email", e.target.value)
                                         }
-                                        error={errors.email ? true : false}
-                                        hint={errors.email}
                                     />
                                 </div>
                                 <div>
