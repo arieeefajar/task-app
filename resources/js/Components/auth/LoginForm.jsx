@@ -2,11 +2,23 @@ import { LuEyeClosed, LuEye } from "react-icons/lu";
 import React, { useState } from "react";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import Button from "../button/Button";
 
 const LoginForm = () => {
+    const { data, setData, post, processing, errors, reset } = useForm({
+        email: "",
+        password: "",
+    });
+
     const [showPassword, setShowPassword] = useState(false);
+
+    const submit = (e) => {
+        e.preventDefault();
+
+        post(route("login"));
+    };
+
     return (
         <div className="flex flex-col flex-1">
             <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
@@ -20,17 +32,28 @@ const LoginForm = () => {
                         </p>
                     </div>
                     <div>
-                        <form>
+                        <form onSubmit={submit}>
                             <div className="space-y-6">
                                 <div>
-                                    <Label>
+                                    <Label htmlFor={"email"}>
                                         Email{" "}
                                         <span className="text-red-500">*</span>{" "}
                                     </Label>
-                                    <Input placeholder="info@gmail" />
+                                    <Input
+                                        id={"email"}
+                                        type={"email"}
+                                        name={"email"}
+                                        value={data.email}
+                                        placeholder="info@gmail"
+                                        onChange={(e) =>
+                                            setData("email", e.target.value)
+                                        }
+                                        error={errors.email ? true : false}
+                                        hint={errors.email}
+                                    />
                                 </div>
                                 <div>
-                                    <Label>
+                                    <Label htmlFor={"password"}>
                                         Password{" "}
                                         <span className="text-red-500">*</span>{" "}
                                     </Label>
@@ -41,7 +64,20 @@ const LoginForm = () => {
                                                     ? "text"
                                                     : "password"
                                             }
+                                            id={"password"}
+                                            name={"password"}
+                                            value={data.password}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "password",
+                                                    e.target.value
+                                                )
+                                            }
                                             placeholder="Enter your password"
+                                            error={
+                                                errors.password ? true : false
+                                            }
+                                            hint={errors.password}
                                         />
                                         <span
                                             className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
@@ -66,24 +102,18 @@ const LoginForm = () => {
                                     </Link>
                                 </div>
                                 <div>
-                                    <Button className="w-full" size="sm">
-                                        Sign In
+                                    <Button
+                                        className="w-full"
+                                        size="sm"
+                                        disabled={processing}
+                                    >
+                                        {processing
+                                            ? "Signing In..."
+                                            : "Sign In"}
                                     </Button>
                                 </div>
                             </div>
                         </form>
-
-                        <div className="mt-5">
-                            <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-                                Don&apos;t have an account? {""}
-                                <Link
-                                    href="/register"
-                                    className="text-blue-600 hover:text-blue-700 dark:text-blue-500"
-                                >
-                                    Sign Up
-                                </Link>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>
