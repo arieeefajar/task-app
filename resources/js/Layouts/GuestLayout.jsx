@@ -1,4 +1,5 @@
-import ApplicationLogo from "@/Components/ApplicationLogo";
+import GridShape from "@/Components/common/GridShape";
+import ThemeTogglerTwo from "@/Components/common/ThemeTogglerTwo";
 import { Link } from "@inertiajs/react";
 
 export default function Guest({ children }) {
@@ -8,26 +9,23 @@ export default function Guest({ children }) {
                 {children}
                 <div className="items-center hidden w-full h-full lg:w-1/2 bg-brand-950 dark:bg-white/5 lg:grid">
                     <div className="relative flex items-center justify-center z-1">
+                        <GridShape />
                         <div className="flex felx-col items-center max-w-x5">
-                            <Link href="/">
-                                <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                            <Link href="/" className="block mb-4">
+                                <img
+                                    width={231}
+                                    height={48}
+                                    src="/assets/images/logo/auth-logo.svg"
+                                    alt="Logo"
+                                />
                             </Link>
                         </div>
                     </div>
                 </div>
+                <div className="fixed z-50 hidden bottom-6 right-6 sm:block">
+                    <ThemeTogglerTwo />
+                </div>
             </div>
         </div>
     );
-    // return (
-    //     <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-    //         <div>
-    //             <Link href="/">
-    //                 <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-    //             </Link>
-    //         </div>
-    //         <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-    //             {children}
-    //         </div>
-    //     </div>
-    // );
 }
