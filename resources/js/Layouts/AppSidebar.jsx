@@ -4,48 +4,28 @@ import { useSidebar } from "../context/SidebarContext";
 import { FaChevronDown } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { HiDotsHorizontal } from "react-icons/hi";
+import { useAuth } from "@/context/AuthContext";
 
-const navItems = [
+const adminNav = [
     {
         icon: <MdDashboard />,
         name: "Dashboard",
-        path: "/dashboard",
+        path: "/dashboard-admin",
     },
 ];
 
-// const othersItems = [
-//     {
-//         icon: "",
-//         name: "Charts",
-//         subItems: [
-//             { name: "Line Chart", path: "/line-chart", pro: false },
-//             { name: "Bar Chart", path: "/bar-chart", pro: false },
-//         ],
-//     },
-//     {
-//         icon: "",
-//         name: "UI Elements",
-//         subItems: [
-//             { name: "Alerts", path: "/alerts", pro: false },
-//             { name: "Avatar", path: "/avatars", pro: false },
-//             { name: "Badge", path: "/badge", pro: false },
-//             { name: "Buttons", path: "/buttons", pro: false },
-//             { name: "Images", path: "/images", pro: false },
-//             { name: "Videos", path: "/videos", pro: false },
-//         ],
-//     },
-//     {
-//         icon: "",
-//         name: "Authentication",
-//         subItems: [
-//             { name: "Sign In", path: "/signin", pro: false },
-//             { name: "Sign Up", path: "/signup", pro: false },
-//         ],
-//     },
-// ];
+const userNav = [
+    {
+        icon: <MdDashboard />,
+        name: "Dashboard",
+        path: "/dashboard-user",
+    },
+];
 
 export default function AppSidebar() {
     const { url } = usePage();
+    const { user } = useAuth();
+    const navItems = user?.role === "admin" ? adminNav : userNav;
     const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
 
     const [openSubmenu, setOpenSubmenu] = useState(null);
@@ -72,7 +52,6 @@ export default function AppSidebar() {
         };
 
         check(navItems, "main");
-        // check(othersItems, "others");
 
         if (!found) setOpenSubmenu(null);
     }, [url, isActive]);

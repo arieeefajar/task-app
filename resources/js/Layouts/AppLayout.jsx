@@ -2,6 +2,7 @@ import { SidebarProvider, useSidebar } from "../context/SidebarContext";
 import AppHeader from "./AppHeader";
 import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
+import { AuthProvider } from "@/context/AuthContext";
 
 function LayoutContent({ children }) {
     const { isExpanded, isHovered, isMobileOpen } = useSidebar();
@@ -20,7 +21,7 @@ function LayoutContent({ children }) {
             >
                 <AppHeader />
 
-                <div className="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+                <div className="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6 dark:bg-gray-900">
                     {children}
                 </div>
             </div>
@@ -28,10 +29,12 @@ function LayoutContent({ children }) {
     );
 }
 
-export default function AppLayout({ children }) {
+export default function AppLayout({ user, children }) {
     return (
-        <SidebarProvider>
-            <LayoutContent>{children}</LayoutContent>
-        </SidebarProvider>
+        <AuthProvider user={user}>
+            <SidebarProvider>
+                <LayoutContent>{children}</LayoutContent>
+            </SidebarProvider>
+        </AuthProvider>
     );
 }

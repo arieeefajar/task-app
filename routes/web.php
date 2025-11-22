@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -59,9 +60,13 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard/AdminDashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth', 'verified')->group(function () {
+
+    Route::controller(DashboardController::class)->name('dashboard.')->group(function () {
+        Route::get('dashboard-admin', 'admin')->name('admin');
+        Route::get('dashboard-user', 'user')->name('user');
+    });
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
