@@ -5,12 +5,23 @@ import { FaChevronDown } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useAuth } from "@/context/AuthContext";
+import { SiDatabricks } from "react-icons/si";
 
 const adminNav = [
     {
         icon: <MdDashboard />,
         name: "Dashboard",
         path: "/dashboard-admin",
+    },
+    {
+        icon: <SiDatabricks />,
+        name: "Master Data",
+        subItems: [
+            {
+                name: "Users",
+                path: "/users",
+            },
+        ],
     },
 ];
 
@@ -24,7 +35,7 @@ const userNav = [
 
 export default function AppSidebar() {
     const { url } = usePage();
-    const { user } = useAuth();
+    const user = useAuth();
     const navItems = user?.role === "admin" ? adminNav : userNav;
     const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
 
@@ -32,7 +43,7 @@ export default function AppSidebar() {
     const [subMenuHeight, setSubMenuHeight] = useState({});
     const subMenuRefs = useRef({});
 
-    const isActive = useCallback((path) => url === path, [url]);
+    const isActive = useCallback((path) => url.startsWith(path), [url]);
 
     // Auto-open submenu if active route is inside
     useEffect(() => {

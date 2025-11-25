@@ -3,6 +3,7 @@ import AppHeader from "./AppHeader";
 import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
 import { AuthProvider } from "@/context/AuthContext";
+import { usePage } from "@inertiajs/react";
 
 function LayoutContent({ children }) {
     const { isExpanded, isHovered, isMobileOpen } = useSidebar();
@@ -29,9 +30,10 @@ function LayoutContent({ children }) {
     );
 }
 
-export default function AppLayout({ user, children }) {
+export default function AppLayout({ children }) {
+    const { auth } = usePage().props;
     return (
-        <AuthProvider user={user}>
+        <AuthProvider user={auth?.user || null}>
             <SidebarProvider>
                 <LayoutContent>{children}</LayoutContent>
             </SidebarProvider>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -65,6 +66,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::controller(DashboardController::class)->name('dashboard.')->group(function () {
         Route::get('dashboard-admin', 'admin')->name('admin');
         Route::get('dashboard-user', 'user')->name('user');
+    });
+
+    Route::prefix('users')->controller(UserController::class)->name('user.')->group(function () {
+        Route::get('/', 'index')->name('index');
     });
 });
 
